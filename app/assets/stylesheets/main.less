@@ -1,0 +1,123 @@
+
+html {
+  overflow: -moz-scrollbars-vertical; 
+  overflow-y: scroll;
+}
+
+#main {
+  min-height: 800px;
+  height: auto;
+}
+
+.loading {
+  display: block;
+  margin: auto;
+}
+
+#sources-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  
+  li {
+    margin: 0 10px 30px 10px;
+    
+    blockquote {
+      margin-bottom: 30px;
+    }
+  }
+  
+  div.sources-cluster {
+    padding: 15px;
+    border: 1px solid #ccc;
+    background-color: #fcfcfc;
+
+    border-radius: 4px 14px 4px 14px;
+    -moz-border-radius: 4px 14px 4px 14px;
+
+    -moz-box-shadow: 2px 2px 8px #ddd;
+    -webkit-box-shadow: 2px 2px 8px #ddd;
+    box-shadow: 2px 2px 8px #ddd;
+  }
+  
+  div.accordion {
+    margin-bottom: 0;
+  }
+  
+  .tag {
+    cursor: default;
+  }
+  
+  .tagging-widget {
+    margin: 10px 0;
+    padding: 0;
+    
+    ul.tag-box {
+      margin: 0 14px 0 0;
+      padding: 0;
+      list-style-type: none;
+      
+      span.label { margin: 4px 2px; }
+      li {
+        margin: 0; padding: 0; display: inline;
+        text-align: center;
+        
+        &.tag-input { display: block; width: 100%; }
+        table { width: 100%;
+          
+          td { padding: 0; margin: 0; }
+        
+          td.tag-cell-left {
+            width: 160px;
+            text-align: right;
+            vertical-align: top;
+            padding: 1px 4px 0 0;
+          }
+          td.tag-cell-center {
+            width: 160px;
+            text-align: center;
+            vertical-align: top;
+            
+            span.tag-direction { color: #999; }
+            input.add-tag-input { margin: 0; height: 14px; font-size: 10px; line-height: 14px; width: 90px; }
+            button.tag-direction-toggle {
+              color: #999;
+              background: none;
+              cursor: pointer;
+              border: none;
+              margin: 0px;
+              padding: 0px;
+              -moz-box-shadow: none;
+              -webkit-box-shadow: none;
+              box-shadow: none;
+            }
+          }
+          td.tag-cell-right {
+            width: 160px;
+            text-align: left;
+            vertical-align: top;
+            padding: 1px 0 0 4px;         
+          }
+        }
+      }
+    }
+  }
+}
+
+#neighbors-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.datepicker {
+  z-index: 1151;
+}
+
+.above-modal {
+  z-index: 1151;
+}
+
+#new-from, #new-to {
+  width: 80px;
+}

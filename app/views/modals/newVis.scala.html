@@ -1,0 +1,163 @@
+@()
+
+<div id="modal-new" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>New Visualization</h3>
+  </div>
+  <div class="modal-body">
+    <div class="alert">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Warning!</strong> If you create a new visualization, your previous work will be lost!
+    </div>
+    
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="#new-by-relationship" data-toggle="tab">Relationship</a></li>
+        <li><a href="#new-by-name" data-toggle="tab">Name</a></li>
+    </ul>
+    <div id="new-tab-content" class="tab-content">
+
+
+      <div class="tab-pane active" id="new-by-relationship">
+        <p>Show relationships</p>
+        <form class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="new-r-person">between</label>
+            <div class="controls">
+              <input id="new-r-person1" type="text" class="span3 ajax-typeahead" autocomplete="off">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="new-r-person">and</label>
+            <div class="controls">
+              <input id="new-r-person2" type="text" class="span3 ajax-typeahead" autocomplete="off">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="new-r-dates">between</label>
+            <div class="controls">
+              <input type="text" id="new-r-from" class="span1" /> <button id="new-r-clearfrom" type="button" class="close" style="float: none;">&times;</button>
+              <span>and</span>
+              <input type="text" id="new-r-to" class="span1" /> <button id="new-r-clearto" type="button" class="close" style="float: none;">&times;</button>
+            </div>
+            <script>
+              $(document).ready(function() {
+                $('#new-r-from').datepicker({
+                    startView: "decade",
+                    minViewMode: "months",
+                    format: 'yyyy-mm',
+                    startDate: '1995-01',
+                    endDate: '2010-12',
+                    autoclose: true
+                });
+    
+                $('#new-r-to').datepicker({
+                    startView: "decade",
+                    minViewMode: "months",
+                    format: 'yyyy-mm',
+                    startDate: '1995-01',
+                    endDate: '2010-12',
+                    autoclose: true
+                });
+              });
+            </script>
+          </div>
+          
+          <div class="control-group debug">
+            <label class="control-label" for="new-r-expander">using</label>
+            <div class="controls">
+              <select id="new-r-expander" class="span3">
+                <option value="npmi">normalized PMI</option>
+                <option value="pmi">plain PMI</option>
+                <option value="doi-freq">diffused node frequency</option>
+                <option value="doi-freq-log">diffused log(node frequency)</option>
+                <option value="npmi-independence">normalized PMI favouring independence</option>
+                <option value="npmi-dependence">normalized PMI favouring non-independence</option>
+                <option value="freq">plain node frequency</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group debug">
+            <label class="control-label" for="new-r-num-nodes">showing #</label>
+            <div class="controls">
+              <input id="new-r-num-nodes" class="span3" type="text" value="10" />
+            </div>
+          </div>
+        </form>
+      </div>
+        
+       
+     <div class="tab-pane" id="new-by-name">
+        <p>Show relationships</p>
+        <form class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label" for="new-n-person">of</label>
+            <div class="controls">
+              <input id="new-n-person" type="text" class="span3 ajax-typeahead" autocomplete="off">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="new-n-dates">between</label>
+            <div class="controls">
+              <input type="text" id="new-n-from" class="span1" /> <button id="new-n-clearfrom" type="button" class="close" style="float: none;">&times;</button>
+              <span>and</span>
+              <input type="text" id="new-n-to" class="span1" /> <button id="new-n-clearto" type="button" class="close" style="float: none;">&times;</button>
+            </div>
+            <script>
+              $(document).ready(function() {
+                $('#new-n-from').datepicker({
+                    startView: "decade",
+                    minViewMode: "months",
+                    format: 'yyyy-mm',
+                    startDate: '1995-01',
+                    endDate: '2010-12',
+                    autoclose: true
+                });
+    
+                $('#new-n-to').datepicker({
+                    startView: "decade",
+                    minViewMode: "months",
+                    format: 'yyyy-mm',
+                    startDate: '1995-01',
+                    endDate: '2010-12',
+                    autoclose: true
+                });
+              });
+            </script>
+          </div>
+          <div class="control-group debug">
+            <label class="control-label" for="new-n-expander">using</label>
+            <div class="controls">
+              <select id="new-n-expander" class="span3">
+                <option value="npmi">normalized PMI</option>
+                <option value="pmi">plain PMI</option>
+                <option value="doi-freq">diffused node frequency</option>
+                <option value="doi-freq-log">diffused log(node frequency)</option>
+                <option value="npmi-independence">normalized PMI favouring independence</option>
+                <option value="npmi-dependence">normalized PMI favouring non-independence</option>
+                <option value="freq">plain node frequency</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group debug">
+            <label class="control-label" for="new-n-num-nodes">showing #</label>
+            <div class="controls">
+              <input id="new-n-num-nodes" class="span3" type="text" value="10" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#tabs').tab();
+      });
+    </script>
+       
+    <div style="height: 100px;"></div>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+    <a id="new-go" href="#" data-dismiss="modal" class="btn btn-primary">Go</a>
+  </div>
+</div>

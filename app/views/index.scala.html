@@ -1,0 +1,237 @@
+@()
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Networks of Names</title>
+        
+        <!-- Play (AJAX routes) -->
+        <script type="text/javascript" src="@routes.Application.javascriptRoutes"></script>
+        
+        <!-- jQuery (for interaction with the user interface) -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/jQuery/jquery-1.9.0.min.js")"></script>
+        
+        <!-- jQuery: hoverIntent (for smoother mouseover) -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/hoverIntent/hoverIntent.js")"></script>
+        
+        <!-- CoffeeScript compiler (for dynamic settings in development) -->        
+        <script src="http://jashkenas.github.com/coffee-script/extras/coffee-script.js" type="text/javascript" charset="utf-8"></script>
+        
+        <!-- D3 (for visualization) -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/d3/d3.v3.js")" charset="utf-8"></script>
+        <!-- <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script> -->
+        
+        <!-- Bootstrap (for user interface) -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/bootstrap/bootstrap.min.js")"></script>
+        <link type="text/css" rel="stylesheet" href="@routes.Assets.at("frameworks/bootstrap/css/bootstrap.min.css")">
+        
+        <!-- Bootstrap Datepicker (for date selection) -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/datepicker/js/bootstrap-datepicker.js")"></script>
+        <link type="text/css" rel="stylesheet" href="@routes.Assets.at("frameworks/datepicker/css/datepicker.css")">
+        
+        <!-- FileSaver, Blob (for exporting) -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/FileSaver/FileSaver.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/Blob/Blob.js")"></script>
+        
+        <!-- Networks of Names -->
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/utility.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/NetworksOfNames.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/actions.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/ui.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/ui-sources.js")"></script>
+        <link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
+        
+        <style type="text/css">
+        @if(!Application.DevModeEnabled) { .debug { display: none; } }
+        </style>
+    </head>
+    
+    <body>
+      <div id="container" class="container">
+      
+      <header>
+        <h1>Networks of Names</h1>
+      </header>
+      
+      <div id="controls">
+        <div class="btn-toolbar">
+          <div class="btn-group">
+            <button class="btn" data-toggle="modal" data-target="#modal-new">New</button>
+						<button class="btn dropdown-toggle" data-toggle="dropdown">
+						  <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+						  <li class="dropdown-submenu"><a href="#">Sample</a>
+							  <ul class="dropdown-menu">
+							    <li><a id="new-sample-spenden1999" href="#">CDU-Spendenaffäre (1999)</a></li>
+							    <li><a id="new-sample-rwe2004" href="#">RWE-Affäre (2004)</a></li>
+							    <li><a id="new-sample-liechtenstein2004" href="#">Liechtensteiner Steueraffäre (2006)</a></li>
+							    <li><a id="new-sample-kundus2009" href="#">Lkw-Bombardierung im Kunduz (2009)</a></li>
+							    <li class="divider"></li>
+							    <li><a id="new-sample-harrypotter" href="#">Harry Potter</a></li>
+							    <li><a id="new-sample-jamesbond" href="#">James Bond</a></li>
+							    <li class="divider"></li>
+							    <li><a id="new-sample-charlesdarwin" href="#">Charles Darwin</a></li>
+							  </ul>
+						  </li>
+						  
+						  <li class="divider"></li>
+              <li class="dropdown-submenu"><a href="#">Export</a>
+                <ul class="dropdown-menu">
+                  <li><a id="export-svg" href="#">SVG</a></li>
+                  <li><a id="export-png" href="#">PNG</a></li>
+                </ul>
+              </li>
+              
+						  <li class="divider"></li>
+						  <li><a id="new-clear" href="#">Clear</a></li>
+						</ul>
+					</div>
+					<img id="global-loading" src="@routes.Assets.at("images/loading.gif")" style="height: 30px; margin-left: 10px; visibility: hidden;"/>
+        </div>
+      </div>
+      
+      <div id="main">
+        <div id="notifications"></div>
+        <div id="vis"></div>
+      </div>
+      
+      <div id="notes" class="accordion">
+				<div class="accordion-group">
+				  <div class="accordion-heading">
+				    <a class="accordion-toggle" data-toggle="collapse" data-parent="#notes" href="#help-content">
+				      Usage and legend
+				    </a>
+				  </div>
+					<div id="help-content" class="accordion-body collapse">
+					  <div class="accordion-inner">
+						  <img src="@routes.Assets.at("images/legend.png")" style="margin-bottom: 20px" />
+		          
+		          <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                Left click on empty space and drag to pan.
+              </div>
+              
+              <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                Left click on nodes and drag to move nodes around.
+              </div>
+              
+              <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                Left click on edges to open sources.
+              </div>
+              
+              <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                Right click on nodes, edges and tags to open a context menu.
+              </div>
+              
+              <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                Edge labels can be created by user or automatically by the system. Use "Confirm label" and "Remove label"
+                to validate automatic labels or mark them as incorrect.
+              </div>
+					  </div>
+					</div>
+				</div>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#notes" href="#issues-content">
+              Known Issues
+            </a>
+          </div>
+          <div id="issues-content" class="accordion-body collapse">
+            <div class="accordion-inner">
+            </div>
+          </div>
+        </div>
+        
+        <div id="force-settings" class="accordion-group debug">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#notes" href="#force-settings-content">
+              Force Layout Settings
+            </a>
+          </div>
+          <div id="force-settings-content" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <form class="form-horizontal" onSubmit="javascript: applyForceSettings(); return false;">
+                <div class="control-group">
+                  <label class="control-label" for="fs-linkDistance">linkDistance</label>
+                  <div class="controls">
+                    <input type="text" id="fs-linkDistance" class="span6" value="300" autocomplete="off" />
+                    <span class="help-block">Target distance [pixels] between linked nodes (constant or as a function of links).</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="fs-linkStrength">linkStrength</label>
+                  <div class="controls">
+                    <input type="text" id="fs-linkStrength" class="span6" value="1" autocomplete="off" />
+                    <span class="help-block">Link rigidity [0.0 to 1.0] (constant or as a function of links).</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="fs-friction">friction</label>
+                  <div class="controls">
+                    <input type="text" id="fs-friction" class="span6" value="0.9" autocomplete="off" />
+                    <span class="help-block">Factor [0.0 to 1.0], by which node velocity is scaled after each tick (constant).</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="fs-charge">charge</label>
+                  <div class="controls">
+                    <input type="text" id="fs-charge" class="span6" value="-1000" autocomplete="off" />
+                    <span class="help-block">Change of nodes, where negative values mean repulsion (constant or as a function of nodes).</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="fs-theta">theta</label>
+                  <div class="controls">
+                    <input type="text" id="fs-theta" class="span6" value="0.8" autocomplete="off" />
+                    <span class="help-block">Barnes-Hut approximation criterion [0.0 to 1.0?] (constant).</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="fs-gravity">gravity</label>
+                  <div class="controls">
+                    <input type="text" id="fs-gravity" class="span6" value="0.1" autocomplete="off" />
+                    <span class="help-block">Node tendency to be layouted towards the center [0.0 to 1.0] (constant). Is set to 0 after initial layout.</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label">&nbsp;</label>
+                  <div class="controls">
+                    <button type="submit" class="btn" id="fs-submit">Apply</button>
+                  </div>
+                </div>
+              </form>
+              <p>Values can be given as functions in CoffeeScript where applicable. Properties defined by nodes and links can be used within the function.
+              <p>Nodes define <code>id</code>, <code>name</code>, <code>type</code>, <code>freq</code> and <code>numHidden</code>.</p>
+              <p>Links define <code>id</code>, <code>source</code>, <code>target</code>, <code>freq</code>, <code>significance</code>.</p>
+              <p>A function that defines linkStrength in terms of the links's significance, could be given as follows:</p>
+              <pre>(l) -> Math.min(0, l.significance)</pre>
+              <p>A more complete documentation of parameters can be found in the <a href="https://github.com/mbostock/d3/wiki/Force-Layout">Force Layout documentation of the D3 Wiki</a>.
+            </div>
+          </div>
+        </div>
+			</div>
+      
+      <footer></footer>
+      
+      <div id="stringbox" style="position: absolute; float: left; white-space: nowrap; visibility: hidden;"></div>
+      <iframe id="downloader-iframe" src="/" style="display: none;"></iframe>
+      
+      <div id="modals">
+        @modals.newVis()
+        @modals.sourcesList()
+        @modals.neighborsList()
+      </div>
+      
+      <div id="contextmenu" class="dropdown clearfix" style="position: absolute; display: none;">
+        <ul class="dropdown-menu" style="display: block;">
+				</ul>
+      </div>
+    </div>
+    </body>
+</html>

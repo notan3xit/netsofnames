@@ -1,0 +1,84 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# PAGES                                                                                         #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+GET     /                                controllers.Application.index
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# GRAPHS                                                                                        #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+GET     /graphs/expand-more-neighbors    controllers.Graphs.expandNeighbors(node: Long, expanded: String, ignore: String, expander: String, from: Option[String] ?= None, to: Option[String] ?= None)
+GET     /graphs/expand-neighbors         controllers.Graphs.expandNeighborsById(node: Long, expanded: String, neighbors: String, from: Option[String] ?= None, to: Option[String] ?= None)
+GET     /graphs/:name1,:name2            controllers.Graphs.relationship(name1: String, name2: String, expander: String, from: Option[String] ?= None, to: Option[String] ?= None, num: Int ?= 10)
+GET     /graphs/:name                    controllers.Graphs.entity(name: String, expander: String, from: Option[String] ?= None, to: Option[String] ?= None, num: Int ?= 10)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# SOURCES                                                                                       #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+GET     /infos/clustered-sources/:rId    controllers.Graphs.clusteredSources(rId: Long, from: Option[String] ?= None, to: Option[String] ?= None)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# NEIGHBORS                                                                                     #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+GET     /infos/neighbors                controllers.Graphs.neighbors(node: Long, expanded: String, expander: String, from: Option[String] ?= None, to: Option[String] ?= None)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# TAGS                                                                                          #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+GET     /tags/add                        controllers.Tags.add(r: Long, s: Long, label: String, direction: String)
+GET     /tags/remove                     controllers.Tags.remove(tagId: Long)
+GET     /tags/vote-positive/by-label     controllers.Tags.castPositiveVoteByLabel(rId: Long, label: String)
+GET     /tags/vote-negative/by-label     controllers.Tags.castNegativeVoteByLabel(rId: Long, label: String)
+GET     /tags/vote-positive/:tId         controllers.Tags.castPositiveVote(tId: Long)
+GET     /tags/vote-negative/:tId         controllers.Tags.castNegativeVote(tId: Long)
+GET     /tags/by-relationship/:rId       controllers.Tags.byRelationship(rId: Long)
+GET     /tags/disable-pattern/:pId       controllers.Tags.disablePattern(pId: Long)
+GET     /tags/apply-pattern/:pId         controllers.Tags.applyPattern(pId: Long)
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# INPUT                                                                                         #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+GET     /typeahead/:input                controllers.Application.typeahead(input: String)
+GET     /validation/nameExists/:name     controllers.Application.nameExists(name: String)
+POST    /export/svg-to-png               controllers.Application.svgToPNG
+GET     /export/get                      controllers.Application.serveFile(uuid: String)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# ADMINISTRATION                                                                                #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+GET     /admin/startup                   controllers.Administration.startup(forceRecompute: Boolean ?= false)
+
+GET     /database/import                 controllers.Administration.listImports
+POST    /database/import                 controllers.Administration.populateDatabase
+GET     /database/create/tags            controllers.Administration.createTagsTables
+GET     /database/create/logs            controllers.Administration.createLogsTable
+GET     /database/create/indexes         controllers.Administration.recreateIndexes
+GET     /database/empty/tags             controllers.Administration.createTagsTables
+GET     /database/clean/frequencies      controllers.Administration.cleanFrequency
+GET     /database/clean/names            controllers.Administration.cleanNames
+GET     /database/clean/isolated         controllers.Administration.cleanIsolated
+GET     /database/fix/duplicates         controllers.Administration.fixDuplicates
+GET     /database/fix/missing-sources    controllers.Administration.fixMissingSources
+
+GET     /fix/unused-sentences   controllers.Administration.fixUnusedSentencesForm
+POST    /fix/unused-sentences   controllers.Administration.fixUnusedSentences
+GET     /fix/labels             controllers.Administration.fixWrongLabels
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# METRICS                                                                                       #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+GET     /metrics/pattern/:id             controllers.Metrics.pattern(id: Long)
+GET     /metrics/patterns                controllers.Metrics.patternsByPerformance
+GET     /metrics/graph                   controllers.Metrics.graph
+GET     /metrics/users                   controllers.Metrics.users
+GET     /metrics/test-mcl-params         controllers.Metrics.testMCLParams
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# JS ROUTING AND RESOURCES                                                                      #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+GET     /assets/javascripts/routes       controllers.Application.javascriptRoutes()
+GET     /assets/*file                    controllers.Assets.at(path="/public", file)

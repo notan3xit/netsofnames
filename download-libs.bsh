@@ -1,0 +1,11 @@
+#!/bin/bash
+
+rm lib/elki-0.5.5.jar
+wget -O lib/elki-0.5.5.jar http://elki.dbs.ifi.lmu.de/releases/release0.5.5/elki.jar
+
+rm lib/javaml-0.1.7.jar
+wget -O javaml-0.1.7.zip sourceforge.net/projects/java-ml/files/java-ml/javaml-0.1.7.zip
+unzip -o javaml-0.1.7.zip
+cp javaml-0.1.7/javaml-0.1.7.jar lib/javaml-0.1.7.jar
+rm -r javaml-0.1.7
+rm javaml-0.1.7.zip

@@ -1,0 +1,26 @@
+@()
+
+<div id="modal-neighbors" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Neighbors of <span id="neighbors-of-name"></span></h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-inline">
+      <input id="neighbors-filter" type="text" placeholder="Filter" autocomplete="off">
+      <button id="neighbors-filter-reset" class="btn">Reset Filter</button>
+    </form>
+  </div>
+  <div class="modal-body">
+    <img class="loading" src="@routes.Assets.at("images/loading.gif")" />
+    <form id="neighbors-form">
+      <input type="hidden" id="neighbors-of-id" />
+      <ul id="neighbors-list"></ul>
+    </form>
+    <div style="height: 100px;"></div>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+    <a id="neighbors-go" href="#" data-dismiss="modal" class="btn btn-primary">Expand Selected</a>
+  </div>
+</div>

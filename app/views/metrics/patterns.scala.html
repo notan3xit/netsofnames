@@ -1,0 +1,100 @@
+@(numManual: Long, numAutomatic: Long, numValidated: Long, numRejected: Long, patterns: List[Pattern])
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Networks of Names</title>
+        
+        <!-- Play -->
+        <script type="text/javascript" src="@routes.Application.javascriptRoutes"></script>
+        
+        <!-- jQuery -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/jQuery/jquery-1.9.0.min.js")"></script>
+        
+        <!-- jQuery: hoverIntent -->
+        <!-- <script type="text/javascript" src="http://cherne.net/brian/resources/jquery.hoverIntent.minified.js"></script> -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/hoverIntent/hoverIntent.js")"></script>
+        
+        <!-- CoffeeScript compiler -->        
+        <script src="http://jashkenas.github.com/coffee-script/extras/coffee-script.js" type="text/javascript" charset="utf-8"></script>
+        
+        <!-- D3 -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/d3/d3.v3.js")" charset="utf-8"></script>
+        <!-- <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script> -->
+        
+        <!-- Bootstrap -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/bootstrap/bootstrap.min.js")"></script>
+        <link type="text/css" rel="stylesheet" href="@routes.Assets.at("frameworks/bootstrap/css/bootstrap.min.css")">
+        
+        <!-- Bootstrap Datepicker -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/datepicker/js/bootstrap-datepicker.js")"></script>
+        <link type="text/css" rel="stylesheet" href="@routes.Assets.at("frameworks/datepicker/css/datepicker.css")">
+        
+        <!-- Networks of Names -->
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/NetworksOfNames.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/actions.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/ui.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/ui-sources.js")"></script>
+        <link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
+    </head>
+    
+    <body>
+      <div id="container" class="container">
+      
+      <header>
+        <h1>Networks of Names</h1>
+      </header>
+      
+      <div id="controls">       
+      </div>
+      
+      <div id="main">
+        <h2>Tags</h2>
+        <dl>
+          <dt>Number of manual tags</dt><dd>@numManual</dd>
+          <dt>Number of automatic tags</dt><dd>@numAutomatic</dd>
+          <dt>Validation</dt><dd>
+            validated: @{ numValidated },
+            rejected: @{ numRejected }
+            (coverage: @if(numAutomatic > 0) { @("%.4f".format((numValidated + numRejected).toDouble / numAutomatic)) } )
+          </dd>
+        </dl>
+      
+        <h2>Patterns</h2>
+        <table class="table table-striped">
+          <tr>
+            <th>Rule</th>
+            <th>applied</th>
+            <th>pos</th>
+            <th>neg</th>
+            <th>p</th>
+            <th>c</th>
+            <th>disabled</th>
+            <th>functions</th>
+          </tr>
+          @for(pattern <- patterns) {
+            <tr>
+              <td>@pattern.rule</td>
+              <td>@pattern.timesApplied</td>
+              <td>@pattern.positiveVotes</td>
+              <td>@pattern.negativeVotes</td>
+              <td>@("%.2f".format(pattern.performance))</td>
+              <td>@("%.4f".format(pattern.coverage))</td>
+              <td>@if(pattern.disabled) { X }</td>
+              <td>
+                <a href="@routes.Metrics.pattern(pattern.id.get)">view</a>
+                <a href="@routes.Tags.applyPattern(pattern.id.get)">apply</a>
+                <a href="@routes.Tags.disablePattern(pattern.id.get)">disable</a>
+              </td>
+            </tr>
+          }
+        </table>
+      </div>
+      
+      <div id="notes" class="accordion">
+      </div>
+      
+      <footer></footer>
+    </body>
+</html>

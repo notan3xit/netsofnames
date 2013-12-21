@@ -1,0 +1,81 @@
+@(counts: Map[String, Map[String, Long]])
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Networks of Names</title>
+        
+        <!-- Play -->
+        <script type="text/javascript" src="@routes.Application.javascriptRoutes"></script>
+        
+        <!-- jQuery -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/jQuery/jquery-1.9.0.min.js")"></script>
+        
+        <!-- jQuery: hoverIntent -->
+        <!-- <script type="text/javascript" src="http://cherne.net/brian/resources/jquery.hoverIntent.minified.js"></script> -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/hoverIntent/hoverIntent.js")"></script>
+        
+        <!-- CoffeeScript compiler -->        
+        <script src="http://jashkenas.github.com/coffee-script/extras/coffee-script.js" type="text/javascript" charset="utf-8"></script>
+        
+        <!-- D3 -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/d3/d3.v3.js")" charset="utf-8"></script>
+        <!-- <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script> -->
+        
+        <!-- Bootstrap -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/bootstrap/bootstrap.min.js")"></script>
+        <link type="text/css" rel="stylesheet" href="@routes.Assets.at("frameworks/bootstrap/css/bootstrap.min.css")">
+        
+        <!-- Bootstrap Datepicker -->
+        <script type="text/javascript" src="@routes.Assets.at("frameworks/datepicker/js/bootstrap-datepicker.js")"></script>
+        <link type="text/css" rel="stylesheet" href="@routes.Assets.at("frameworks/datepicker/css/datepicker.css")">
+        
+        <!-- Networks of Names -->
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/NetworksOfNames.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/actions.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/ui.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/ui-sources.js")"></script>
+        <link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
+    </head>
+    
+    <body>
+      <div id="container" class="container">
+      
+      <header>
+        <h1>Networks of Names</h1>
+      </header>
+      
+      <div id="controls">       
+      </div>
+      
+      <div id="main">
+        <h2>User Statistics</h2>
+        <table class="table table-striped">
+          <tr>
+            <th>User</th>
+            <th>#Searches</th>
+            <th>#Rel.Views</th>
+            <th>#Tags</th>
+            <th>#Pos.Votes</th>
+            <th>#Neg.Votes</th>
+          </tr>
+          @for((user, values) <- counts) {
+            <tr>
+              <td>@user</td>
+              <td>@values("searches")</td>
+              <td>@values("relviews")</td>
+              <td>@values("tags")</td>
+              <td>@values("pos")</td>
+              <td>@values("neg")</td>
+            </tr>
+          }
+        </table>
+      </div>
+      
+      <div id="notes" class="accordion">
+      </div>
+      
+      <footer></footer>
+    </body>
+</html>

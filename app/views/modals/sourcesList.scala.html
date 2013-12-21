@@ -1,0 +1,17 @@
+@()
+
+<div id="modal-sources" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Sources</h3>
+  </div>
+  <div class="modal-body">
+    <img class="loading" src="@routes.Assets.at("images/loading.gif")" />
+    <p id="sources-results-stats" class="debug">&nbsp;</p>
+    <ul id="sources-list"></ul>
+    <div style="height: 100px;"></div>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+  </div>
+</div>
