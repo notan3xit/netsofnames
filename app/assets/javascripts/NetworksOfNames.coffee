@@ -16,8 +16,10 @@ NetworksOfNames = () ->
   organizationColor = "#7af"                # color for nodes representing organizations
   personHColor = "#f77"                     # color for focal nodes when visualization appears (to allow quick spotting)
   organizationHColor = "#f77"               # color for organizations nodes when visualization appears (to allow quick spotting)
-  normalFont = "14px Sans-serif, Arial"     # font for names and labels
-  smallFont = "10px Sans-serif, Arial"      # font for neighbour indicators
+  normalFontFamily = "Sans-serif, Arial"    # font for names and labels
+  normalFontSize = "14px"
+  smallFontFamily = "Sans-serif, Arial"     # font for neighbour indicators
+  smallFontSize = "10px"
   
   
   
@@ -37,7 +39,7 @@ NetworksOfNames = () ->
   nodeShapes = null                         # node background shapes
   nodesMap = d3.map()                       # mapping of id to nodes
   linksMap = d3.map()                       # mapping of id to link
-  linked = {}                               # hashmap that contains [id1,id2] oder[id2,id2] iff id1 and id2 are linked
+  linked = {}                               # hashmap that contains [id1,id2] or [id2,id2] iff id1 and id2 are linked
   force = d3.layout.force()                 # force algorithm configuration
     .linkDistance(300)                      # see https://github.com/mbostock/d3/wiki/Force-Layout for details on parameters
     .linkStrength(1)
@@ -91,7 +93,7 @@ NetworksOfNames = () ->
         n.y = initialY
         
         # calculate name widths on screen and set node width attribute
-        d = n.name.dimensions(normalFont)
+        d = n.name.dimensions(normalFontSize + " " + normalFontFamily)
         n.width = d[0] + 10
         n.height = d[1]
         
@@ -143,15 +145,17 @@ NetworksOfNames = () ->
     ## Add label.
     linkGroups
       .append("text")
-        .style("text-anchor", "middle")
-        .attr("dy", -2)
-      .append("textPath")
         .attr("id", (l) -> "label" + l.id)
         .attr("class", "link-label")
+        .style("text-anchor", "middle")
+        .style("cursor", "default")
+        .attr("dy", -2)
         .attr("opacity", dynamicLinkOpacity)
+      .append("textPath")
         .attr("startOffset", "50%")
         .attr("xlink:href", (l) -> "#path" + l.id)
-        .style("font", normalFont)
+        .style("font-family", normalFontFamily)
+        .style("font-size", normalFontSize)
         .text((l) -> if (l.tags.length > 0) then l.tags[0].label else "")
     
     ## Remove deleted links.
@@ -172,7 +176,7 @@ NetworksOfNames = () ->
     
     ## Add the background elements.
     countWidth = (n) ->
-      ("" + (n.numNeighbors - n.numShown)).dimensions(smallFont)[0] + 4
+      ("" + (n.numNeighbors - n.numShown)).dimensions(smallFontSize + " " + smallFontFamily)[0] + 4
     
     ##- For the neighbour count.
     nodesG
@@ -222,7 +226,9 @@ NetworksOfNames = () ->
     nodesG
       .append("text")
         .style("text-anchor", "middle")
-        .style("font", normalFont)
+        .style("font-family", normalFontFamily)
+        .style("font-size", normalFontSize)
+        .style("cursor", "default")
         .attr("dy", 5) # simulates '.style("dominant-baseline", "center")' which is not implemented everywhere
         .text((n) -> n.name)
     
@@ -232,7 +238,9 @@ NetworksOfNames = () ->
         .attr("class", "node-ncount")
         .attr("x", (n) -> n.width/2 - 4) # position right minus padding
         .attr("y", (n) -> n.height - 4)
-        .style("font", smallFont)
+        .style("font-family", smallFontFamily)
+        .style("font-size", smallFontSize)
+        .style("cursor", "default")
         .style("text-anchor", "end")
         .text((n) -> (n.numNeighbors - neighborCount(n)))
     
@@ -477,7 +485,8 @@ NetworksOfNames = () ->
       .attr("version", "1.2")
       .attr("width", width)
       .attr("height", height)
-      .style("font", normalFont)
+      .style("font-family", normalFontFamily)
+      .style("font-size", normalFontSize)
       .call(d3.behavior.zoom().scaleExtent([0.5, 3]).on("zoom", zoom))
       .on("dblclick.zoom", leftClickOnly, true)
       .on("mousedown", leftClickOnly, true)
