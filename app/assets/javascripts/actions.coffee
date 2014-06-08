@@ -48,7 +48,7 @@ window.showEntity = (name, expander, num, from, to) ->
     registerMouseHandlers()
     vis()
   .success(-> hideGlobalError())
-  .fail(-> showGlobalError("#{name1} not found."))
+  .fail(-> showGlobalError("#{name} not found."))
   .always(-> hideGlobalLoading())
 
 registerMouseHandlers = (vis) ->
