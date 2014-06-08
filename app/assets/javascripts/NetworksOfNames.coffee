@@ -605,7 +605,7 @@ NetworksOfNames = () ->
     non.setLabel(linkId, tag.label)
   
   non.setLabel = (linkId, label) ->
-    vis.select("#label" + linkId)
+    vis.select("#label" + linkId + " > textPath")
       .text(label)
   
   non.removeLabel = (linkId, label) ->
