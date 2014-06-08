@@ -189,12 +189,9 @@ jQuery ->
   $("modal-new").on "hidden", ->
     $(this).find("form")[0].reset()
   
-  # Query the server for network when the user submits a new search.
-  searchType = "r"
-  $('a[data-toggle="tab"]').on "shown", (e) ->
-    searchType = if e.target.href.endsWith "by-name" then "n" else "r"
-  
+  # Query the server for network when the user submits a new search.  
   $("#new-go").click ->
+    searchType = if $('#tabs li.active > a').attr("href") is "#new-by-name" then "n" else "r"
     if searchType is "r"
       showRelationship $("#new-r-person1").val(), $("#new-r-person2").val(), $("#new-r-expander").val(), $("#new-r-num-nodes").val(), $("#new-r-from").val(), $("#new-r-to").val()
     else
